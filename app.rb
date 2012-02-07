@@ -17,8 +17,10 @@ get "/image/:key/:width/:height" do
   result = random_result params[:key]
   result_base = File.basename(result)
   x_y = params[:width] + "x" + params[:height]
-  filename = params[:key] + "_" + x_y + ".jpg"
-  `wget -P tmp #{result}` 
+  filename = params[:key] + "_" + x_y + Time.now.to_i.to_s + Time.now.nsec.to_s + ".jpg" 
+  unless File.exists?(File.join("tmp", "result_base"))
+    `wget -P tmp #{result}`
+  end
   `convert -resize #{x_y} -extent #{x_y} -gravity center tmp/#{result_base} tmp/#{filename}`
   send_file "tmp/" + filename
 end
