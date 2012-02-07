@@ -14,15 +14,16 @@ get "/favicon.ico" do
 end
 
 get "/:keyword" do
-  first_result params["keyword"]
+  random_result params["keyword"]
 end
 
 def search(keyword)
   url = "https://www.google.com/search?q=#{CGI::escape(keyword)}&tbm=isch"
-  Nokogiri::HTML(open(url))
+  results = open(url).read.scan /imgurl=(.+?)&/
 end
 
-def first_result(keyword)
-  doc = search(keyword)
-  doc.css("#ires img").first.to_s
+def random_result(keyword)
+  res = search(keyword)
+  pick = res[rand(res.size)].first
+  "<img src='#{pick}' />"
 end
