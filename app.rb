@@ -17,13 +17,13 @@ get "/:keyword" do
   random_result params["keyword"]
 end
 
-def search(keyword)
-  url = "https://www.google.com/search?q=#{CGI::escape(keyword)}&tbm=isch"
+def search keyword 
+  url = "https://www.google.com/search?q=#{CGI::escape keyword}&tbm=isch"
   results = open(url).read.scan /imgurl=(.+?)&/
 end
 
-def random_result(keyword)
-  res = search(keyword)
+def random_result keyword 
+  res = search keyword 
   pick = res[rand(res.size)].first
   "<img src='#{pick}' />"
 end
