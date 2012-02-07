@@ -2,13 +2,11 @@ require "rubygems"
 require "bundler"
 require "open-uri"
 require "cgi"
-require "pry"
 
 Bundler.require
 
 get "/" do
-  
-  "Geht"
+  "quickimage.heroku.com/keyword"
 end
 
 get "/favicon.ico" do
